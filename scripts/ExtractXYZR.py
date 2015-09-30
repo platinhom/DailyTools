@@ -2,7 +2,7 @@
 # -*- coding: utf8 -*-
 # Author: Platinhom; Last Updated: 2015-09-30
 
-# Usage: ExtractXYZR from PQR file.
+# Usage: Extract XYZR from PQR file and save it in xyzr format.
 # Only for pqr format now.
 # python ExtractXYZR.py file.pqr
 

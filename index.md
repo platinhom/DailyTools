@@ -1,8 +1,26 @@
 ---
 title: Tools
-layout: page
+layout: page_small
 comments: yes
 ---
+
+## scripts: 
+
+### Python脚本
+
+- **ESES_ElementArea.py** : 利用ESES计算各元素的面积,也会将各原子面积写到pqra文件中
+- **ExtractXYZR.py** : 从PQR文件提取XYZR.
+- **zap9radius4pqr.py** : 将PQR文件中半径部分替换为ZAP9半径
+
+### Bash脚本
+
+- **getPubChemSDF.sh** : 从PubChem上抓取相应CID的化合物.
+
+## bin: 
+
+## win: 
+
+## mac: 
 
 
 
