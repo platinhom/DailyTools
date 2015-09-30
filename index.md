@@ -1,5 +1,5 @@
 ---
-title: TOOLS
+title: Tools
 layout: page
 comments: yes
 ---
