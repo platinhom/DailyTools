@@ -1,7 +1,15 @@
 #! /bin/bash
-# $1: file contains Pubchem Compound ID (one number a line)
-NewDir=20150909-628
+#
+# File: getPubChemSDF.sh
+# Author: Hom, 2015.9.30
+# Get the Pubchem compounds in 3D-sdf format by cid saved in a file.
+#
+# Usage: ./getPubChemSDF.sh cid.txt 
+# 	$1: file contains Pubchem Compound ID (one number a line)
+
+NewDir=GETCOMPOUNDS
 mkdir $NewDir
+
 for fil in `cat $1`
 do
 if [ ! -f ${fil}.sdf ];then
