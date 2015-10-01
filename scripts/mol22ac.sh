@@ -1,10 +1,10 @@
 #! /bin/bash
-# File: mol22pqr.sh
+# File: mol22ac.sh
 # Author: Zhixiong Zhao, Last Updated: 2015.9.30
 #
-# Change the input molecule to pqr file with vdw radius.
+# Change the input molecule to antechamber ac file with atom type.
 # Input: molecule file in pdb/mol2 format
-# Usage: ./mol22pqr.sh input.mol2 bcc mbondi
+# Usage: ./mol22ac.sh input.mol2 bcc gaff
 # Need: ambertools
 # Custom: $AMBERHOME enviroment
 
@@ -13,35 +13,32 @@ echo "Please assign the input file!"
 exit
 fi
 
-if [ -z $2 ];then
+chargetype=$2
+if [[ -z $2 || ( $2 != "bcc" && $2 != "mul" && $2 != "gas" && $2 != "no" ) ]];then
 echo "Please assign the charge method! Can be:"
 echo "  no:  Not to change the charges"
 echo "  bcc: for AM1-BCC charge"
 echo "  mul: for Mulliken charge"
 echo "  gas: for Gasteiger charge"
 echo "  cm1, cm2, esp, resp charge need more programs.. so don't support here."
-exit
+chargetype=no
 fi
 
-#vdw Type as: bondi, mbondi(default), mbondi2, mbondi3, amber6.(In amber14)
-vdwtype=$3
-if [ -z $3 ];then
-echo "Please assign the vdw radius type of atom! Can be:"
-echo "bondi, mbondi(default), mbondi2, mbondi3, amber6.(In amber14)"
-echo "Using default mbondi...."
-vdwtype=mbondi
+#atom type as: gaff(default), amber, sybyl, bcc, gas.(In amber14)
+atomtype=$3
+if [[ -z $3 || ( $3 != "gaff" && $3 != "amber" && $3 != "sybyl" && $3 != "bcc" && $3 != "gas" ) ]];then
+echo "Please assign the atom type in molecule! Can be:"
+echo "gaff(default), amber, sybyl, bcc, gas.(In amber14)"
+echo "Using default gaff...."
+atomtype=gaff
 fi
 
-echo $3
-
-exit
-
-#If need changevdw, change value to "True". And change the vdwtype value
+#If need changevdw, change value to "True". And change the atomtype value
 #You can change it to any other string to deactivate it.
 changevdw="True"
 
 if [ $changevdw = "True" ];then
-echo "It will use $vdwtype method for vdw radiis."
+echo "It will use $atomtype method for vdw radiis."
 fi
 
 #Setup the amber environment. You should modify by your own environment
@@ -56,7 +53,7 @@ fi
 basename=${1%.*}
 exdname=${1##*.}
 
-if [ $2 = "no" ];then # No need to change charges
+if [ $chargetype = "no" ];then # No need to change charges
 
 if [ $exdname = "mol2" ];then
 antechamber -fi mol2 -fo mol2 -pf y -i $1 -o ${basename}_gaff.mol2
@@ -70,9 +67,9 @@ fi
 else # Need to calculate charges.
 
 if [ $exdname = "mol2" ];then
-antechamber -fi mol2 -fo mol2 -pf y -i $1 -c $2 -o ${basename}_gaff.mol2
+antechamber -fi mol2 -fo mol2 -pf y -i $1 -c $chargetype -o ${basename}_gaff.mol2
 elif [ $exdname = "pdb" ];then
-antechamber -fi pdb -fo mol2 -pf y -i $1 -c $2 -o ${basename}_gaff.mol2
+antechamber -fi pdb -fo mol2 -pf y -i $1 -c $chargetype -o ${basename}_gaff.mol2
 else
 echo "Only support for pdb or mol2 files!"
 exit
@@ -91,7 +88,7 @@ tleap -f ${basename}_gaff.leapin >/dev/null
 #Change the vdw radius by amber sets
 ####
 if [ $changevdw = "True" ];then
-echo "changeRadii $vdwtype">>${basename}_gaff.parmedin
+echo "changeRadii $atomtype">>${basename}_gaff.parmedin
 echo "outparm ${basename}_gaff.top">>${basename}_gaff.parmedin
 parmed.py -p ${basename}_gaff.top -i ${basename}_gaff.parmedin -O > /dev/null
 fi

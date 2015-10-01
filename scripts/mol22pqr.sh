@@ -13,35 +13,35 @@ echo "Please assign the input file!"
 exit
 fi
 
-if [ -z $2 ];then
+chargetype=$2
+if [[ -z $2 || ( $2 != "bcc" && $2 != "mul" && $2 != "gas" && $2 != "no" ) ]];then
 echo "Please assign the charge method! Can be:"
 echo "  no:  Not to change the charges"
 echo "  bcc: for AM1-BCC charge"
 echo "  mul: for Mulliken charge"
 echo "  gas: for Gasteiger charge"
 echo "  cm1, cm2, esp, resp charge need more programs.. so don't support here."
-exit
+echo "  Now using no charge or origin charge...."
+chargetype=no
 fi
 
 #vdw Type as: bondi, mbondi(default), mbondi2, mbondi3, amber6.(In amber14)
 vdwtype=$3
-if [ -z $3 ];then
+if [[ -z $3 || ( $3 != "bondi" && $3 != "mbondi" && $3 != "mbondi2" && $3 != "mbondi3" && $3 != "amber6" ) ]];then
 echo "Please assign the vdw radius type of atom! Can be:"
-echo "bondi, mbondi(default), mbondi2, mbondi3, amber6.(In amber14)"
-echo "Using default mbondi...."
+echo "  bondi, mbondi(default), mbondi2, mbondi3, amber6.(In amber14)"
+echo "  Using default mbondi...."
 vdwtype=mbondi
 fi
-
-echo $3
-
-exit
 
 #If need changevdw, change value to "True". And change the vdwtype value
 #You can change it to any other string to deactivate it.
 changevdw="True"
 
 if [ $changevdw = "True" ];then
-echo "It will use $vdwtype method for vdw radiis."
+	echo "It will use $chargetype method for partial charge and $vdwtype method for vdw radiis."
+else 
+	echo "It will use $chargetype method for partial charge."
 fi
 
 #Setup the amber environment. You should modify by your own environment
@@ -56,7 +56,7 @@ fi
 basename=${1%.*}
 exdname=${1##*.}
 
-if [ $2 = "no" ];then # No need to change charges
+if [ $chargetype = "no" ];then # No need to change charges
 
 if [ $exdname = "mol2" ];then
 antechamber -fi mol2 -fo mol2 -pf y -i $1 -o ${basename}_gaff.mol2
@@ -70,9 +70,9 @@ fi
 else # Need to calculate charges.
 
 if [ $exdname = "mol2" ];then
-antechamber -fi mol2 -fo mol2 -pf y -i $1 -c $2 -o ${basename}_gaff.mol2
+antechamber -fi mol2 -fo mol2 -pf y -i $1 -c $chargetype -o ${basename}_gaff.mol2
 elif [ $exdname = "pdb" ];then
-antechamber -fi pdb -fo mol2 -pf y -i $1 -c $2 -o ${basename}_gaff.mol2
+antechamber -fi pdb -fo mol2 -pf y -i $1 -c $chargetype -o ${basename}_gaff.mol2
 else
 echo "Only support for pdb or mol2 files!"
 exit
@@ -80,6 +80,7 @@ fi
 
 fi #Whether change charges
 
+# Using tleap to generate top file
 parmchk -i ${basename}_gaff.mol2 -f mol2 -o ${basename}_gaff.frcmod
 echo "source leaprc.gaff">>${basename}_gaff.leapin
 echo "loadamberparams ${basename}_gaff.frcmod" >>${basename}_gaff.leapin
@@ -88,7 +89,7 @@ echo "saveamberparm hom ${basename}_gaff.top ${basename}_gaff.crd">>${basename}_
 echo "quit">>${basename}_gaff.leapin
 tleap -f ${basename}_gaff.leapin >/dev/null
 
-#Change the vdw radius by amber sets
+# Change the vdw radius by amber sets
 ####
 if [ $changevdw = "True" ];then
 echo "changeRadii $vdwtype">>${basename}_gaff.parmedin
