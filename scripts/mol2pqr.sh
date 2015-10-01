@@ -257,6 +257,9 @@ if [ $outPQR = "True" ];then
 		echo "		nowi+=1;" >> pqr_ac2pqrt.py
 		python pqr_ac2pqrt.py ${basename}.pqr ${basename}_gaff.ac
 		rm pqr_ac2pqrt.py
+		if [ ${outFormat} = "pqrt" ];then
+			rm ${basename}.pqr
+		fi
 	fi
 
 outPQRA=""
