@@ -1,6 +1,6 @@
 #! /bin/bash
 # File: mol22pqr.sh
-# Author: Zhixiong Zhao, Last Updated: 2015.10
+# Author: Zhixiong Zhao, Last Updated: 2015.10.1
 #
 # Change the input molecule to pqr file with vdw radius.
 # Input: molecule file in pdb/mol2/mpdb/pqr/ac format
