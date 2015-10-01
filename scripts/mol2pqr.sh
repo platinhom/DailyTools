@@ -85,9 +85,9 @@ fi
 #You can change it to any other string to deactivate it.
 #changevdw="True"
 
-$outPQR="False"
-if [ ${outFormat:0:3} = "pqr" || $outFormat = "xyzr" ];then
-$outPQR = "True"
+outPQR="False"
+if [[ ${outFormat:0:3} = "pqr" || $outFormat = "xyzr" ]];then
+	outPQR="True"
 fi
 
 #mpdb will use mbondi, can't be changed!
@@ -158,7 +158,9 @@ fi
 if [ $outPQR = "True" ];then
 
 	# Using tleap to generate top file
-	parmchk -i ${basename}_gaff.ac -f ac -o ${basename}_gaff.frcmod
+	# Leap only know gaff name and loadmol2, so convert back to mol2 file
+	antechamber -fi ac -fo mol2 -pf y -i ${basename}_gaff.ac -o ${basename}_gaff.mol2
+	parmchk -i ${basename}_gaff.mol2 -f mol2 -o ${basename}_gaff.frcmod
 	echo "source leaprc.gaff">> ${basename}_gaff.leapin
 	echo "loadamberparams ${basename}_gaff.frcmod" >> ${basename}_gaff.leapin
 	echo "hom=loadmol2 ${basename}_gaff.mol2">> ${basename}_gaff.leapin
@@ -255,11 +257,14 @@ if [ $outPQR = "True" ];then
 		echo "		nowi+=1;" >> pqr_ac2pqrt.py
 		python pqr_ac2pqrt.py ${basename}.pqr ${basename}_gaff.ac
 		rm pqr_ac2pqrt.py
+		if [ ${outFormat} = "pqrt" ];then
+			rm ${basename}.pqr
+		fi
 	fi
 
 outPQRA=""
 	# Convert to pqra
-	if [ $outFormat = "pqra" || $outFormat = "pqrta" ];then
+	if [[ $outFormat = "pqra" || $outFormat = "pqrta" ]];then
 		# Come from ESES_ElementArea.py
 		echo "#! /usr/bin/env python" > pqr2pqra.py
 		echo "import os,sys" >> pqr2pqra.py
@@ -332,7 +337,7 @@ outPQRA=""
 		echo "fr.close();" >> pqr2pqra.py
 		echo "fw.close();" >> pqr2pqra.py
 		outPQRA=`python pqr2pqra.py ${basename}.pqr`
-		rm pqr2pqra.py;
+		rm pqr2pqra.py ${basename}.xyzr ${basename}.pqr bounding_box.txt grid_info.txt intersection_info.txt partition_area.txt;
 	fi
 
 	# Convert to pqrta
@@ -349,7 +354,7 @@ outPQRA=""
 		echo "	if (line[:6]=='ATOM  ' or line[:6]=='HETATM'):" >> combine2pqrta.py
 		echo "		aarea=line[78:90]" >> combine2pqrta.py
 		echo "		atomarea.append(aarea)" >> combine2pqrta.py
-		echo "	else if (line[:6]=='REMARK'): fw.write(line)">> combine2pqrta.py
+		echo "	elif (line[:6]=='REMARK'): fw.write(line)">> combine2pqrta.py
 		echo "nowi=0" >> combine2pqrta.py
 		echo "for line in frpqrt:" >> combine2pqrta.py
 		echo "	if (line[:6]=='ATOM  ' or line[:6]=='HETATM'):" >> combine2pqrta.py
