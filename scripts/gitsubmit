@@ -1,0 +1,16 @@
+#! /bin/bash
+# Easy tool to submit changes to Github
+# Support $1 for comment.
+
+comment=$1
+if [ -z $1 ];then
+comment="regular"
+fi
+
+cd $DailyToolsScripts
+
+git add -A
+git commit -am "$comment"
+git push origin gh-pages
+
+cd ..
