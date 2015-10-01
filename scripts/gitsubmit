@@ -2,7 +2,7 @@
 # Easy tool to submit changes to Github
 # Support $1 for comment.
 
-if [ -z $DailyTools];then
+if [ -z $DailyTools ];then
 echo "Please use 'export DailyTools=yourpath' to export it in your .bashrc file"
 exit
 fi

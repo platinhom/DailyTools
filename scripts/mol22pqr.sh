@@ -3,7 +3,7 @@
 # Author: Zhixiong Zhao, Last Updated: 2015.9.30
 #
 # Change the input molecule to pqr file with vdw radius.
-# Input: molecule file in pdb/mol2 format
+# Input: molecule file in pdb/mol2/mpdb/pqr/ac format
 # Usage: ./mol22pqr.sh input.mol2 bcc mbondi
 # Need: ambertools
 # Custom: $AMBERHOME enviroment
@@ -58,23 +58,23 @@ exdname=${1##*.}
 
 if [ $chargetype = "no" ];then # No need to change charges
 
-if [ $exdname = "mol2" ];then
+if [[ $exdname = "mol2" || $exdname = "pdb" || $exdname = "ac" ]];then
 antechamber -fi mol2 -fo mol2 -pf y -i $1 -o ${basename}_gaff.mol2
-elif [ $exdname = "pdb" ];then
-antechamber -fi pdb -fo mol2 -pf y -i $1 -o ${basename}_gaff.mol2
+elif [[ $exdname = "mpdb" || $exdname = "pqr" ]];then
+antechamber -fi mpdb -fo mol2 -pf y -i $1 -o ${basename}_gaff.mol2
 else
-echo "Only support for pdb or mol2 files!"
+echo "Only support for pdb/mol2/mpdb/pqr/ac files!"
 exit
 fi
 
 else # Need to calculate charges.
 
-if [ $exdname = "mol2" ];then
-antechamber -fi mol2 -fo mol2 -pf y -i $1 -c $chargetype -o ${basename}_gaff.mol2
-elif [ $exdname = "pdb" ];then
-antechamber -fi pdb -fo mol2 -pf y -i $1 -c $chargetype -o ${basename}_gaff.mol2
+if [[ $exdname = "mol2" || $exdname = "pdb" || $exdname = "ac" ]];then
+antechamber -fi $exdname -fo mol2 -pf y -i $1 -c $chargetype -o ${basename}_gaff.mol2
+elif [[ $exdname = "mpdb" || $exdname = "pqr" ]];then
+antechamber -fi mpdb -fo mol2 -pf y -i $1 -c $chargetype -o ${basename}_gaff.mol2
 else
-echo "Only support for pdb or mol2 files!"
+echo "Only support for pdb/mol2/mpdb/pqr/ac files!"
 exit
 fi
 
@@ -85,18 +85,21 @@ parmchk -i ${basename}_gaff.mol2 -f mol2 -o ${basename}_gaff.frcmod
 echo "source leaprc.gaff">>${basename}_gaff.leapin
 echo "loadamberparams ${basename}_gaff.frcmod" >>${basename}_gaff.leapin
 echo "hom=loadmol2 ${basename}_gaff.mol2">>${basename}_gaff.leapin
+echo "set default PBRadii $vdwtype" >> ${basename}_gaff.leapin
 echo "saveamberparm hom ${basename}_gaff.top ${basename}_gaff.crd">>${basename}_gaff.leapin
 echo "quit">>${basename}_gaff.leapin
 tleap -f ${basename}_gaff.leapin >/dev/null
 
-# Change the vdw radius by amber sets
+# Change the vdw radius by amber sets by parmed.py
+# Old version, now it use leap 'set default PBRadii type' instead.
 ####
-if [ $changevdw = "True" ];then
-echo "changeRadii $vdwtype">>${basename}_gaff.parmedin
-echo "outparm ${basename}_gaff.top">>${basename}_gaff.parmedin
-parmed.py -p ${basename}_gaff.top -i ${basename}_gaff.parmedin -O > /dev/null
-fi
+#if [ $changevdw = "Truee" ];then
+#echo "changeRadii $vdwtype">>${basename}_gaff.parmedin
+#echo "outparm ${basename}_gaff.top">>${basename}_gaff.parmedin
+#parmed.py -p ${basename}_gaff.top -i ${basename}_gaff.parmedin -O > /dev/null
+#fi
 ####
 
+# Use ambpdb to convert amber input to pqr.
 ambpdb -p ${basename}_gaff.top -pqr < ${basename}_gaff.crd >${basename}.pqr
 rm ${basename}_gaff.* leap.log
