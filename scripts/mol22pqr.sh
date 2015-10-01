@@ -12,7 +12,7 @@ if [ -z $1 ];then
 echo "Please assign the input file!"
 exit
 fi
- 
+
 if [ -z $2 ];then
 echo "Please assign the charge method! Can be:"
 echo "  no:  Not to change the charges"
@@ -22,25 +22,23 @@ echo "  gas: for Gasteiger charge"
 echo "  cm1, cm2, esp, resp charge need more programs.. so don't support here."
 exit
 fi
- 
+
+#vdw Type as: bondi, mbondi(default), mbondi2, mbondi3, amber6.(In amber14)
+vdwtype=$3
 if [ -z $3 ];then
 echo "Please assign the vdw radius type of atom! Can be:"
 echo "bondi, mbondi(default), mbondi2, mbondi3, amber6.(In amber14)"
 echo "Using default mbondi...."
-$3=mbondi
+vdwtype=mbondi
 fi
 
-if [ -z $4 ];then
-echo "Please assign the vdw radius type of atom! Can be:"
-echo "bondi, mbondi(default), mbondi2, mbondi3, amber6.(In amber14)"
+echo $3
+
 exit
-fi
 
-
-#if need changevdw, change value to "True". And change the vdwtype value
+#If need changevdw, change value to "True". And change the vdwtype value
+#You can change it to any other string to deactivate it.
 changevdw="True"
-#vdw Type as: bondi, mbondi(default), mbondi2, mbondi3, amber6.(In amber14)
-vdwtype=$3
 
 if [ $changevdw = "True" ];then
 echo "It will use $vdwtype method for vdw radiis."

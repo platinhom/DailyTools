@@ -15,6 +15,7 @@ comments: yes
 ### Bash脚本
 
 - **getPubChemSDF.sh** : 从PubChem上抓取相应CID的化合物.
+- **gitsubmit** : Submit to Git with comment.
 
 ## bin: 
 

@@ -2,12 +2,20 @@
 # Easy tool to submit changes to Github
 # Support $1 for comment.
 
+if [ -z $DailyTools];then
+echo "Please use 'export DailyTools=yourpath' to export it in your .bashrc file"
+exit
+fi
+
 comment=$1
+
 if [ -z $1 ];then
 comment="regular"
 fi
 
-cd $DailyToolsScripts
+
+
+cd $DailyTools
 
 git add -A
 git commit -am "$comment"
