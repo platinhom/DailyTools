@@ -3,9 +3,9 @@
 # Author: Platinhom; Last Updated: 2015-10-1
 
 # Calculate each element surface area by ESES(MS_Intersection) and also match the atomic area results to the pqr file.
-# Usage: python ESES_ElementArea.py file.pqr
+# Usage: python ESES_AtomicArea.py file.pqr
 #
-# Need: MS_Intersection (partition version)
+# Need: MS_Intersection (partition version), AmberTools
 # Note: Only for PQR format input.
 # Custom: ESES parameters.
 
@@ -15,7 +15,7 @@ import os,sys
 # You can modify to command line input parameter as you like
 probe=1.4
 grid=0.2
-buffer=4.0
+solbuffer=4.0
 
 if (__name__ == '__main__'):
 	fname=sys.argv[1]
@@ -47,8 +47,8 @@ if (__name__ == '__main__'):
 	# Use external ESES program to generate surface and calculate atom area
 	## So you have to put the ESES program in the same directory
 	# Output a "partition_area.txt" file saving atom area
-	#os.system('./MS_Intersection_Area '+fnamelist[0]+".xyzr "+str(probe)+" "+str(grid)+" "+str(buffer));
-	p=os.popen('./MS_Intersection '+fnamelist[0]+".xyzr "+str(probe)+" "+str(grid)+" "+str(buffer),'r')
+	#os.system('./MS_Intersection_Area '+fnamelist[0]+".xyzr "+str(probe)+" "+str(grid)+" "+str(solbuffer));
+	p=os.popen('./MS_Intersection '+fnamelist[0]+".xyzr "+str(probe)+" "+str(grid)+" "+str(solbuffer),'r')
 	totalArea="0"
 	totalVolume="0"
 	while 1:
