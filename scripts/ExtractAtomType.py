@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 
-
 import os,sys
 fname=sys.argv[1]
 fnamelist=os.path.splitext(fname)
