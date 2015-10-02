@@ -8,6 +8,7 @@
 # Input 3: charge type: no(default), bcc, mul, gas
 # Input 4: atom type: gaff(default), amber, sybyl, bcc, gas
 # Input 5: vdw radius set: mbondi(default), mbondi2, mbondi3, bondi, amber6, zap9 
+# Input 6: set any value to keep pqr file when for conversion to pqrt/pqra/pqrta 
 #
 # Usage: ./mol2pqr.sh input.mol2 pqr bcc gaff mbondi
 # Need: python, ambertools, MS_Intersection(for pqra/pqrta)
@@ -257,7 +258,7 @@ if [ $outPQR = "True" ];then
 		echo "		nowi+=1;" >> pqr_ac2pqrt.py
 		python pqr_ac2pqrt.py ${basename}.pqr ${basename}_gaff.ac
 		rm pqr_ac2pqrt.py
-		if [ ${outFormat} = "pqrt" ];then
+		if [[ ${outFormat} = "pqrt" && $6 = "" ]];then
 			rm ${basename}.pqr
 		fi
 	fi
@@ -337,7 +338,11 @@ outPQRA=""
 		echo "fr.close();" >> pqr2pqra.py
 		echo "fw.close();" >> pqr2pqra.py
 		outPQRA=`python pqr2pqra.py ${basename}.pqr`
-		rm pqr2pqra.py ${basename}.xyzr ${basename}.pqr bounding_box.txt grid_info.txt intersection_info.txt partition_area.txt;
+		rm pqr2pqra.py ${basename}.xyzr bounding_box.txt grid_info.txt intersection_info.txt partition_area.txt;
+        if [[ $6 = "" ]];then
+            rm ${basename}.pqr
+        fi
+
 	fi
 
 	# Convert to pqrta

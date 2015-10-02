@@ -30,16 +30,16 @@ gas=["br", "c1", "c2", "c3", "cl", "f", "h", "i", "n1", "n2", "n3", "na", "o2", 
 if (__name__ == '__main__'):
 	fname=sys.argv[1]
 	fnamelist=os.path.splitext(fname)
-	if (fnamelist[1].lower()!='pqrta'):
+	if (fnamelist[1].lower()!='.pqrta'):
 		print 'Input should be pqrta format!'
 		exit(1)
-	fnum=fnamelist[1].split('_')[0];
+	fnum=fnamelist[0].split('_')[0];
 	settype=[]
-	if (sys.argv[2].lower='gaff'):settype=gaff
-	elif (sys.argv[2].lower='amber'):settype=amber
-	elif (sys.argv[2].lower='sybyl'):settype=sybyl
-	elif (sys.argv[2].lower='bcc'):settype=bcc
-	elif (sys.argv[2].lower='gas'):settype=gas
+	if (sys.argv[2].lower()=='gaff'):settype=gaff
+	elif (sys.argv[2].lower()=='amber'):settype=amber
+	elif (sys.argv[2].lower()=='sybyl'):settype=sybyl
+	elif (sys.argv[2].lower()=='bcc'):settype=bcc
+	elif (sys.argv[2].lower()=='gas'):settype=gas
 	else:
 		print 'Atom type set should be given, gaff, amber, sybyl, bcc or gas!'
 		exit(1)
