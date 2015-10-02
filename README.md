@@ -17,6 +17,10 @@ binary program can be used in Window-Msys
 
 binary program can be used in MacOS
 
+## params
+
+important parameter files for comp. biol. or comp. chem.
+
 -----
 
 More details plz refer to index.md.
