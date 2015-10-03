@@ -105,6 +105,7 @@ echo "		data.append(analyseLine(line))" >> formatPQRTA.py
 echo "		dataid.append(tmp[0])" >> formatPQRTA.py
 echo "		i+=1;" >> formatPQRTA.py
 echo "		continue;" >> formatPQRTA.py
+echo "  if (line.strip()==''):print 'Line '+str(i)+' is blank!';i+=1;continue;" >> formatPQRTA.py
 echo "	data.append(analyseLine(line))" >> formatPQRTA.py
 echo "	tmp=line.split(':')[0].strip().split();" >> formatPQRTA.py
 echo "	dataid.append(tmp[0])" >> formatPQRTA.py
