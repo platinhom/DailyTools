@@ -1,0 +1,7 @@
+energy minimization stage 2
+ &cntrl
+  imin=1, maxcyc=5000, ncyc=2500,
+  cut=10.0, ntb=1,
+  ntc=1, ntf=1,
+  ntpr=10,
+ /

@@ -19,6 +19,7 @@ cd $DailyTools
 
 git add -A
 git commit -am "$comment"
+# maybe you should revise this for your branch
 git push origin gh-pages
 
 cd ..
