@@ -1,10 +1,11 @@
 #! /bin/bash
 # File: newblog.sh
 # Author: PlatinHom
-# Create: 2015-06-21, Last: 2015.10.1
+# Create: 2015-06-21, Last: 2015.10.10
 
 # Full Usage: "./newblog.sh title category tag1 tag2"
 # Simple Usage without category and tag: ".newblog/.sh title"
+# You should export GHPAGE_PATH="path_to_your_username.github.com"
 
 # You can register your sublime here. It's not nessary.
 nowsys=`uname -s`
@@ -19,7 +20,12 @@ fi
 shopt -s expand_aliases
 
 # Set the directory to your blog directory
+# Default in MyGit
 blogdir="./platinhom.github.com"
+
+if [ ! -z $GHPAGE_PATH ];then
+blogdir=$GHPAGE_PATH
+fi
 
 # START
 title=$1
@@ -31,11 +37,11 @@ title="TempTitle-`date +%H%M%S`"
 fi
 
 if [ -z $2 ];then
-category="Other"
+	category="Other"
 fi
 
 if [ -z $3 ];then
-tag="Other"
+	tag="Other"
 fi
 
 # My blog use GMT+8:00 time zone-China
