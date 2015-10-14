@@ -11,7 +11,7 @@ if [ -z $1 ];then
 fi
 action=`echo $action | tr 'A-Z' 'a-z'`
 
-if [ ! ( $action = "p" -o $action = "s" ) ];then
+if [[ ! ($action == "p" || $action == "s") ]];then
 	echo "Action don't know: should be s (submit) or p (pull)"
 	exit 1
 fi
@@ -19,7 +19,7 @@ fi
 if [ ! -z $MYGIT_PATH ];then
 	cd $MYGIT_PATH
 
-	if [ ! -z $MYGIT_ALL ];then
+	if [ ! -z "$MYGIT_ALL" ];then
 		for dir in $MYGIT_ALL
 			do
 			cd $dir
@@ -29,6 +29,7 @@ if [ ! -z $MYGIT_PATH ];then
 			else 
 				echo ${dir} pulling....
 				git pull
+			fi
 			cd ..
 			done
 	else
