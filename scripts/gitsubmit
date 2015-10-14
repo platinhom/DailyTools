@@ -1,25 +1,48 @@
 #! /bin/bash
 # Easy tool to submit changes to Github
-# Support $1 for comment.
+# Support $2 for comment.
 
-if [ -z $DailyTools ];then
-echo "Please use 'export DailyTools=yourpath' to export it in your .bashrc file"
-exit
+project=`echo $1 |tr 'A-Z' 'a-z'`
+nowpwd=`pwd`
+
+ppath="$MYGIT_PATH"
+
+if [ -z $ppath ];then
+	echo "No MyGit path! "
+	exit 1
 fi
 
-comment=$1
+branch="master"
+case $project in
+c*)
+ppath="$GIT_CADDHOM_PATH"
+;;
+d*)
+ppath="$GIT_DAILYTOOLS_PATH"
+branch=gh-pages
+;;
+m*)
+ppath="$GIT_MOLSHOW_PATH"
+branch=gh-pages
+;;
+*)
+ppath="$GHPAGE_PATH"
+;;
+esac
 
-if [ -z $1 ];then
+comment=$2
+if [ -z $2 ];then
 comment="regular"
 fi
 
 
 
-cd $DailyTools
+cd $ppath
 
 git add -A
 git commit -am "$comment"
 # maybe you should revise this for your branch
-git push origin gh-pages
+git push origin $branch
 
-cd ..
+cd $nowpwd
+
