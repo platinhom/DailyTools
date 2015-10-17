@@ -35,6 +35,7 @@ alias ls='ls --color=tty --show-control-chars -F'
 alias ll='ls -lh'
 alias la='ls -ah'
 alias vi='vim'
+alias pull="git pull"
 
 # ssh
 alias hpcc='ssh zhaozx@hpcc.msu.edu'
