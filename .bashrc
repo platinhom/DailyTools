@@ -29,6 +29,9 @@ alias source_amber="source ~/AmberTools/amber.sh"
 alias source_g09="source ~/gau_setup.sh"
 
 # short command
+##LS_COLORS='no=00:fi=0:di=01;34:ln=01;36:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=01;32:*.sh=01;33:*.rpm=90:'
+##export LS_COLORS
+alias ls='ls --color=tty --show-control-chars -F'
 alias ll='ls -lh'
 alias la='ls -ah'
 alias vi='vim'
@@ -43,3 +46,7 @@ alias subl="/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
 alias matlabno="matlab -nodesktop -nosplash"
 alias mou="/Applications/Mou.app/Contents/MacOS/Mou"
 alias mysql="/Applications/XAMPP/bin/mysql"
+alias exp="explorer"
+alias npp="/c/Program\ Files\ \(x86\)/Notepad++/Notepad++.exe"
+alias moe="moe -gfxvisual 0x01"
+alias sl="/c/Program\ Files/Sublime\ Text\ 3/subl.exe"
