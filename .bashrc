@@ -3,8 +3,9 @@
 # Setup for bashrc
 
 export WORKDIR_PATH="~"
-export DESKTOP_PATH="~/Desktop"
-export MYGIT_PATH="/Users/Hom/MyGit"
+export DESKTOP_PATH="/c/Users/Hom/Desktop"
+export DROPBOX_PATH="/c/Users/Hom/Dropbox"
+export MYGIT_PATH="/c/Users/Hom/MyGit"
 export MYGIT_ALL="platinhom.github.com CADDHom DailyTools HomPDF MolShow"
 export GHPAGE_PATH="${MYGIT_PATH}/platinhom.github.com"
 export GIT_DAILYTOOLS_PATH="${MYGIT_PATH}/DailyTools"
@@ -50,4 +51,5 @@ alias mysql="/Applications/XAMPP/bin/mysql"
 alias exp="explorer"
 alias npp="/c/Program\ Files\ \(x86\)/Notepad++/Notepad++.exe"
 alias moe="moe -gfxvisual 0x01"
+alias vmd="/c/Program\ Files\ \(x86\)/University\ of\ Illinois/VMD/vmd.exe"
 alias sl="/c/Program\ Files/Sublime\ Text\ 3/subl.exe"
