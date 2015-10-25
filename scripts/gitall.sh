@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash --login
 # Author: Hom 2015.10.13
 # Use for submit/pull for github
 
