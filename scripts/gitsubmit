@@ -16,6 +16,7 @@ branch="master"
 case $project in
 c*)
 ppath="$GIT_CADDHOM_PATH"
+branch="master"
 ;;
 d*)
 ppath="$GIT_DAILYTOOLS_PATH"
@@ -27,6 +28,7 @@ branch=gh-pages
 ;;
 *)
 ppath="$GHPAGE_PATH"
+branch="master"
 ;;
 esac
 
