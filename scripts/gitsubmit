@@ -22,6 +22,10 @@ d*)
 ppath="$GIT_DAILYTOOLS_PATH"
 branch=gh-pages
 ;;
+h*)
+ppath="$GIT_HOMPDF_PATH"
+branch=gh-pages
+;;
 m*)
 ppath="$GIT_MOLSHOW_PATH"
 branch=gh-pages
