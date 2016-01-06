@@ -27,7 +27,7 @@ ppath="$GIT_HOMPDF_PATH"
 branch=gh-pages
 ;;
 m*)
-ppath="$GIT_MOLSHOW_PATH"
+ppath="${MYGIT_PATH}/ManualHom"
 branch=gh-pages
 ;;
 *)
